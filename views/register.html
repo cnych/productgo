@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+</head>
+<body>
+
+<div id="nav" class="nav">
+    <ul>
+        <li><a href="/login">登录</a></li>
+        <li><a href="/register">注册</a></li>
+    </ul>
+</div>
+
+<div id="form-wrapper">
+    <h1>Welcome</h1>
+    <form id="register-form" class="form" method="post">
+        <input type="text" name="username" placeholder="请输入用户名" />
+        <br/>
+        <input type="password" name="password" placeholder="请输入密码" />
+        <br/>
+        <input type="password" name="repassword" placeholder="请再次输入密码" />
+        <button type="submit">注册</button>
+    </form>
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="../static/js/register.js"></script>
+
+</body>
+</html>
