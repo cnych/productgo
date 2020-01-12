@@ -2,26 +2,35 @@ package utils
 
 import (
 	"database/sql"
+	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 var db *sql.DB
 
-func InitMySQL() error {
-	if db == nil {
-		db0, err := sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/productgo")
-		if err != nil {
-			return err
-		}
-		db = db0
-		// 初始化User表
-		err = InitTableUser()
-		if err != nil {
-			return err
-		}
+func InitDB() error {
+	db0, err := orm.GetDB()
+	if err != nil {
+		return err
 	}
+	db = db0
 	return nil
 }
+//func InitMySQL() error {
+//	if db == nil {
+//		db0, err := sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/productgo")
+//		if err != nil {
+//			return err
+//		}
+//		db = db0
+//		// 初始化User表
+//		err = InitTableUser()
+//		if err != nil {
+//			return err
+//		}
+//	}
+//	return nil
+//}
 
 func InitTableUser() error {
 	sql := `CREATE TABLE IF NOT EXISTS user(

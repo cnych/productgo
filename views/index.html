@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
         .bd-placeholder-img {
@@ -55,6 +56,116 @@
     <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
 </div>
 
+<div class="products-wrapper container">
+    <h3>产品列表</h3>
+    <div class="products-date">
+        <span class="date">2020-01-12</span>
+        <div class="dropdown-divider"></div>
+        <div class="products">
+            <div class="media products-item">
+                <a href="#" class="align-self-center mr-3 upvote-link">
+                    <i class="far fa-thumbs-up"></i>
+                    <span>10</span>
+                </a>
+                <div class="media-body">
+                    <h5 class="mt-0">优点知识</h5>
+                    <p class="mb-0">专注云原生视频教学</p>
+                </div>
+                <img src="https://avatars0.githubusercontent.com/u/3094973?v=4" class="align-self-center avatar" alt="">
+            </div>
+            <div class="media products-item">
+                <a href="#" class="align-self-center mr-3 upvote-link">
+                    <i class="far fa-thumbs-up"></i>
+                    <span>10</span>
+                </a>
+                <div class="media-body">
+                    <h5 class="mt-0">优点知识</h5>
+                    <p class="mb-0">专注云原生视频教学</p>
+                </div>
+                <img src="https://avatars0.githubusercontent.com/u/3094973?v=4" class="align-self-center avatar" alt="">
+            </div>
+            <div class="media products-item">
+            <a href="#" class="align-self-center mr-3 upvote-link">
+                <i class="far fa-thumbs-up"></i>
+                <span>10</span>
+            </a>
+            <div class="media-body">
+                <h5 class="mt-0">优点知识</h5>
+                <p class="mb-0">专注云原生视频教学</p>
+            </div>
+            <img src="https://avatars0.githubusercontent.com/u/3094973?v=4" class="align-self-center avatar" alt="">
+        </div>
+        </div>
+    </div>
+    <div class="products-date">
+        <span class="date">2020-01-11</span>
+        <div class="dropdown-divider"></div>
+        <div class="products">
+            <div class="media products-item">
+                <a href="#" class="align-self-center mr-3 upvote-link">
+                    <i class="far fa-thumbs-up"></i>
+                    <span>10</span>
+                </a>
+                <div class="media-body">
+                    <h5 class="mt-0">优点知识</h5>
+                    <p class="mb-0">专注云原生视频教学</p>
+                </div>
+                <img src="https://avatars0.githubusercontent.com/u/3094973?v=4" class="align-self-center avatar" alt="">
+            </div>
+            <div class="media products-item">
+                <a href="#" class="align-self-center mr-3 upvote-link">
+                    <i class="far fa-thumbs-up"></i>
+                    <span>10</span>
+                </a>
+                <div class="media-body">
+                    <h5 class="mt-0">优点知识</h5>
+                    <p class="mb-0">专注云原生视频教学</p>
+                </div>
+                <img src="https://avatars0.githubusercontent.com/u/3094973?v=4" class="align-self-center avatar" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="products-date">
+        <span class="date">2020-01-10</span>
+        <div class="dropdown-divider"></div>
+        <div class="products">
+            <div class="media products-item">
+                <a href="#" class="align-self-center mr-3 upvote-link">
+                    <i class="far fa-thumbs-up"></i>
+                    <span>10</span>
+                </a>
+                <div class="media-body">
+                    <h5 class="mt-0">优点知识</h5>
+                    <p class="mb-0">专注云原生视频教学</p>
+                </div>
+                <img src="https://avatars0.githubusercontent.com/u/3094973?v=4" class="align-self-center avatar" alt="">
+            </div>
+            <div class="media products-item">
+                <a href="#" class="align-self-center mr-3 upvote-link">
+                    <i class="far fa-thumbs-up"></i>
+                    <span>10</span>
+                </a>
+                <div class="media-body">
+                    <h5 class="mt-0">优点知识</h5>
+                    <p class="mb-0">专注云原生视频教学</p>
+                </div>
+                <img src="https://avatars0.githubusercontent.com/u/3094973?v=4" class="align-self-center avatar" alt="">
+            </div>
+            <div class="media products-item">
+                <a href="#" class="align-self-center mr-3 upvote-link">
+                    <i class="far fa-thumbs-up"></i>
+                    <span>10</span>
+                </a>
+                <div class="media-body">
+                    <h5 class="mt-0">优点知识</h5>
+                    <p class="mb-0">专注云原生视频教学</p>
+                </div>
+                <img src="https://avatars0.githubusercontent.com/u/3094973?v=4" class="align-self-center avatar" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Modal -->
 <div class="modal fade" id="productModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -65,33 +176,34 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form>
+            <form id="product-form" method="post">
+                <div class="modal-body">
                     <div class="form-group">
                         <label for="name">名称</label>
-                        <input type="text" class="form-control" id="name" placeholder="输入产品名称">
+                        <input type="text" class="form-control" name="name" placeholder="输入产品名称" required>
                     </div>
                     <div class="form-group">
                         <label for="link">产品链接</label>
-                        <input type="text" class="form-control" id="link" placeholder="输入产品链接">
+                        <input type="text" class="form-control" name="link" placeholder="输入产品链接" required>
                     </div>
                     <div class="form-group">
                         <label for="description">一句话描述</label>
-                        <input type="text" class="form-control" id="description" placeholder="输入该产品的描述信息">
+                        <input type="text" class="form-control" name="description" placeholder="输入该产品的描述信息" required>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary">提交 <i class="fas fa-arrow-right"></i></button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">提交 <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 <script src="/static/js/font.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js" integrity="sha384-L2pyEeut/H3mtgCBaUNw7KWzp5n9+4pDQiExs933/5QfaTh8YStYFFkOzSoXjlTb" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="/static/js/product.js"></script>
 </body>
 </html>

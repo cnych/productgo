@@ -72,3 +72,63 @@
 }
 
 .overflow-hidden { overflow: hidden; }
+
+
+.products-wrapper {
+    padding: 50px;
+}
+.products-wrapper h3 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.products-wrapper .products-date {
+    margin-bottom: 20px;
+}
+.products-wrapper .products-item {
+    padding: 10px;
+}
+.products-wrapper .products-item:hover {
+    background-color: #eeeeee;
+    cursor: pointer;
+}
+.products-wrapper .avatar {
+    /*px em 1em=16px*/
+    width: 2em;
+    height: 2em;
+    border-radius: 500em;
+}
+.products-wrapper .upvote-link {
+    position: relative;
+    width: 40px;
+    height: 45px;
+    margin-right: 32px;
+    border-radius: 2px;
+    background: #fff;
+    border: 1px solid #21ba45;
+    padding: 5px;
+    color: #21ba45;
+}
+.upvote-link > span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 0);
+}
+.upvote-link > svg {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+.upvote-link:hover, .upvote-active {
+    background-color: #21ba45;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 3rem;
+    }
+    .products-wrapper {
+        padding: 10px;
+    }
+}

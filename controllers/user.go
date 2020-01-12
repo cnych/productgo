@@ -22,14 +22,14 @@ func (l *LoginController) Post() {
 
 	fmt.Println(username, password)
 
-	id := models.QueryUserWithParam(username, utils.MD5(password))
-	if id > 0 {
+	user := models.QueryUserWithParam(username, utils.MD5(password))
+	if user.Id > 0 {
 		//	匹配密码
 		l.Data["json"] = map[string]interface{}{
 			"code":    1,
 			"message": "登录成功",
 		}
-		l.SetSession("login_uid", id)
+		l.SetSession("current_user", user)
 	} else {
 		l.Data["json"] = map[string]interface{}{
 			"code":    0,
@@ -77,7 +77,7 @@ func (r *RegisterController) Post() {
 	}
 
 	// 用户名不存在，添加到数据了
-	user := models.User{0, username, utils.MD5(password), time.Now().Unix()}
+	user := models.User{0, username, utils.MD5(password), time.Now()}
 	_, err := models.InsertUser(&user)
 	if err != nil {
 		r.Data["json"] = map[string]interface{}{
