@@ -91,6 +91,11 @@
     background-color: #eeeeee;
     cursor: pointer;
 }
+.products-item .external-link {
+    color: #212529;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
 .products-wrapper .avatar {
     /*px em 1em=16px*/
     width: 2em;

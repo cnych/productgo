@@ -13,6 +13,7 @@ func main() {
 	if err := orm.RegisterDataBase("default", "mysql", "root:root@tcp(127.0.0.1:3306)/productgo?charset=utf8", 30); err != nil {
 		panic(err)
 	}
+	orm.Debug = true
 	// register model
 	orm.RegisterModel(new(models.User), new(models.Product))
 	// create table

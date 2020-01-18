@@ -58,112 +58,29 @@
 
 <div class="products-wrapper container">
     <h3>产品列表</h3>
+    {{ range .Items }}
     <div class="products-date">
-        <span class="date">2020-01-12</span>
+        <span class="date">{{ .Date }}</span>
         <div class="dropdown-divider"></div>
         <div class="products">
+            {{ range .Products }}
             <div class="media products-item">
                 <a href="#" class="align-self-center mr-3 upvote-link">
                     <i class="far fa-thumbs-up"></i>
                     <span>10</span>
                 </a>
                 <div class="media-body">
-                    <h5 class="mt-0">优点知识</h5>
-                    <p class="mb-0">专注云原生视频教学</p>
+                    <a href="{{ .Link }}" target="_blank" class="mt-0 external-link">{{ .Name }}</a>
+                    <p class="mb-0">{{ .Description }}</p>
                 </div>
                 <img src="https://avatars0.githubusercontent.com/u/3094973?v=4" class="align-self-center avatar" alt="">
             </div>
-            <div class="media products-item">
-                <a href="#" class="align-self-center mr-3 upvote-link">
-                    <i class="far fa-thumbs-up"></i>
-                    <span>10</span>
-                </a>
-                <div class="media-body">
-                    <h5 class="mt-0">优点知识</h5>
-                    <p class="mb-0">专注云原生视频教学</p>
-                </div>
-                <img src="https://avatars0.githubusercontent.com/u/3094973?v=4" class="align-self-center avatar" alt="">
-            </div>
-            <div class="media products-item">
-            <a href="#" class="align-self-center mr-3 upvote-link">
-                <i class="far fa-thumbs-up"></i>
-                <span>10</span>
-            </a>
-            <div class="media-body">
-                <h5 class="mt-0">优点知识</h5>
-                <p class="mb-0">专注云原生视频教学</p>
-            </div>
-            <img src="https://avatars0.githubusercontent.com/u/3094973?v=4" class="align-self-center avatar" alt="">
-        </div>
+            {{ else }}
+                <p>暂时没有产品信息</p>
+            {{ end }}
         </div>
     </div>
-    <div class="products-date">
-        <span class="date">2020-01-11</span>
-        <div class="dropdown-divider"></div>
-        <div class="products">
-            <div class="media products-item">
-                <a href="#" class="align-self-center mr-3 upvote-link">
-                    <i class="far fa-thumbs-up"></i>
-                    <span>10</span>
-                </a>
-                <div class="media-body">
-                    <h5 class="mt-0">优点知识</h5>
-                    <p class="mb-0">专注云原生视频教学</p>
-                </div>
-                <img src="https://avatars0.githubusercontent.com/u/3094973?v=4" class="align-self-center avatar" alt="">
-            </div>
-            <div class="media products-item">
-                <a href="#" class="align-self-center mr-3 upvote-link">
-                    <i class="far fa-thumbs-up"></i>
-                    <span>10</span>
-                </a>
-                <div class="media-body">
-                    <h5 class="mt-0">优点知识</h5>
-                    <p class="mb-0">专注云原生视频教学</p>
-                </div>
-                <img src="https://avatars0.githubusercontent.com/u/3094973?v=4" class="align-self-center avatar" alt="">
-            </div>
-        </div>
-    </div>
-    <div class="products-date">
-        <span class="date">2020-01-10</span>
-        <div class="dropdown-divider"></div>
-        <div class="products">
-            <div class="media products-item">
-                <a href="#" class="align-self-center mr-3 upvote-link">
-                    <i class="far fa-thumbs-up"></i>
-                    <span>10</span>
-                </a>
-                <div class="media-body">
-                    <h5 class="mt-0">优点知识</h5>
-                    <p class="mb-0">专注云原生视频教学</p>
-                </div>
-                <img src="https://avatars0.githubusercontent.com/u/3094973?v=4" class="align-self-center avatar" alt="">
-            </div>
-            <div class="media products-item">
-                <a href="#" class="align-self-center mr-3 upvote-link">
-                    <i class="far fa-thumbs-up"></i>
-                    <span>10</span>
-                </a>
-                <div class="media-body">
-                    <h5 class="mt-0">优点知识</h5>
-                    <p class="mb-0">专注云原生视频教学</p>
-                </div>
-                <img src="https://avatars0.githubusercontent.com/u/3094973?v=4" class="align-self-center avatar" alt="">
-            </div>
-            <div class="media products-item">
-                <a href="#" class="align-self-center mr-3 upvote-link">
-                    <i class="far fa-thumbs-up"></i>
-                    <span>10</span>
-                </a>
-                <div class="media-body">
-                    <h5 class="mt-0">优点知识</h5>
-                    <p class="mb-0">专注云原生视频教学</p>
-                </div>
-                <img src="https://avatars0.githubusercontent.com/u/3094973?v=4" class="align-self-center avatar" alt="">
-            </div>
-        </div>
-    </div>
+    {{ end }}
 </div>
 
 <!-- Modal -->
