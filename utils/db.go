@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
+	"sync"
 )
 
 var db *sql.DB
@@ -15,6 +16,16 @@ func InitDB() error {
 	}
 	db = db0
 	return nil
+}
+
+var globalOrm orm.Ormer
+var once sync.Once
+
+func GetOrmer() orm.Ormer {
+	once.Do(func() {
+		globalOrm = orm.NewOrm()
+	})
+	return globalOrm
 }
 //func InitMySQL() error {
 //	if db == nil {

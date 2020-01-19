@@ -22,9 +22,11 @@ func (c *MainController) Get() {
 	//c.Data["Email"] = "astaxie@gmail.com"
 	c.TplName = "index.html"
 
-	uid := c.GetSession("login_uid")
-	if uid != nil {
-		c.Data["Uid"] = uid
+	currentUser := c.GetSession("current_user")
+	if currentUser != nil {
+		c.Data["Uid"] = currentUser.(*models.User).Id
+	} else {
+		c.Data["Uid"] = 0
 	}
 
 	var items []ProductDateItem

@@ -23,4 +23,28 @@ $(document).ready(function () {
             alert(data.statusText);
         });
     });
+
+    $(".upvote-link").click(function (event) {
+        var $self = $(this);
+        var id = $self.data('id');
+        $.ajax({
+            type: "POST",
+            url: "/products/"+ id + "/vote/",
+            dataType: 'json',
+        }).done(function (response) {
+            if (response.code === 1) {
+                console.log(response);
+                var voteCount = response.data.vote_count;
+                var $vote = $self.find(".vote-count");
+                $vote.text(voteCount);
+                $self.addClass("upvote-active");
+                $self.addClass("disabled");
+            } else {
+                alert(response.message);
+            }
+        }).fail(function (data) {
+            console.log(data);
+            alert(data.statusText);
+        });
+    });
 });

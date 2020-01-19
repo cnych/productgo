@@ -15,7 +15,7 @@ func main() {
 	}
 	orm.Debug = true
 	// register model
-	orm.RegisterModel(new(models.User), new(models.Product))
+	orm.RegisterModel(new(models.User), new(models.Product), new(models.ProductVote))
 	// create table
 	if err := orm.RunSyncdb("default", false, true); err != nil {
 		panic(err)

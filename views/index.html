@@ -65,9 +65,10 @@
         <div class="products">
             {{ range .Products }}
             <div class="media products-item">
-                <a href="#" class="align-self-center mr-3 upvote-link">
+                <a href="javascript:void(0);" data-id="{{ .Id }}"
+                   class="align-self-center mr-3 upvote-link {{if .HasVoted $.Uid }}upvote-active disabled{{end}}">
                     <i class="far fa-thumbs-up"></i>
-                    <span>10</span>
+                    <span class="vote-count">{{ .VoteCount }}</span>
                 </a>
                 <div class="media-body">
                     <a href="{{ .Link }}" target="_blank" class="mt-0 external-link">{{ .Name }}</a>

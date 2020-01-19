@@ -125,8 +125,11 @@
     transform: translate(-50%, 0);
 }
 .upvote-link:hover, .upvote-active {
-    background-color: #21ba45;
-    color: #fff;
+    background-color: #21ba45 !important;
+    color: #fff !important;
+}
+.upvote-link.disabled {
+    pointer-events: none;
 }
 
 @media (max-width: 768px) {
