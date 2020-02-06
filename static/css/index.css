@@ -109,9 +109,9 @@
     margin-right: 32px;
     border-radius: 2px;
     background: #fff;
-    border: 1px solid #21ba45;
+    border: 1px solid #007bff;
     padding: 5px;
-    color: #21ba45;
+    color: #007bff;
 }
 .upvote-link > span {
     position: absolute;
@@ -125,11 +125,14 @@
     transform: translate(-50%, 0);
 }
 .upvote-link:hover, .upvote-active {
-    background-color: #21ba45 !important;
+    background-color: #007bff !important;
     color: #fff !important;
 }
 .upvote-link.disabled {
     pointer-events: none;
+}
+.products-wrapper .products-action {
+    text-align: center;
 }
 
 @media (max-width: 768px) {

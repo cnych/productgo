@@ -1,0 +1,23 @@
+<div class="products-date">
+    {{ $uid := .Uid }}
+    <span class="date">{{ .Date }}</span>
+    <div class="dropdown-divider"></div>
+    <div class="products">
+        {{ range .Products }}
+        <div class="media products-item">
+            <a href="javascript:void(0);" data-id="{{ .Id }}"
+            class="align-self-center mr-3 upvote-link {{if .HasVoted $uid }}upvote-active disabled{{end}}">
+                <i class="far fa-thumbs-up"></i>
+                <span class="vote-count">{{ .VoteCount }}</span>
+            </a>
+            <div class="media-body">
+                <a href="{{ .Link }}" target="_blank" class="mt-0 external-link">{{ .Name }}</a>
+                <p class="mb-0">{{ .Description }}</p>
+            </div>
+            <img src="https://avatars0.githubusercontent.com/u/3094973?v=4" class="align-self-center avatar" alt="">
+        </div>
+        {{ else }}
+            <p>暂时没有产品信息</p>
+        {{ end }}
+    </div>
+</div>

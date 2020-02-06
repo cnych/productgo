@@ -23,8 +23,9 @@ $(document).ready(function () {
             alert(data.statusText);
         });
     });
-
-    $(".upvote-link").click(function (event) {
+    
+    $(document).on("click", ".upvote-link", function (event) {
+    // $(".upvote-link").click(function (event) { // 这种方式不能用于后面append的元素点击
         var $self = $(this);
         var id = $self.data('id');
         $.ajax({
@@ -33,7 +34,6 @@ $(document).ready(function () {
             dataType: 'json',
         }).done(function (response) {
             if (response.code === 1) {
-                console.log(response);
                 var voteCount = response.data.vote_count;
                 var $vote = $self.find(".vote-count");
                 $vote.text(voteCount);
@@ -42,6 +42,20 @@ $(document).ready(function () {
             } else {
                 alert(response.message);
             }
+        }).fail(function (data) {
+            console.log(data);
+            alert(data.statusText);
+        });
+    });
+
+    $(".btn-more").click(function (event) {
+        var lastDate = $(".products-content .date").last().text();
+        console.log(lastDate);
+        $.ajax({
+            type: "GET",
+            url: "/?last_dt="+ lastDate
+        }).done(function(response) {
+            $(".products-content").append(response);
         }).fail(function (data) {
             console.log(data);
             alert(data.statusText);

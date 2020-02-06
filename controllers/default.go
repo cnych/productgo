@@ -1,11 +1,12 @@
 package controllers
 
 import (
-	"fmt"
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/orm"
+	"net/http"
 	"productgo/models"
 	"productgo/utils"
+	"time"
+
+	"github.com/astaxie/beego"
 )
 
 type MainController struct {
@@ -13,52 +14,86 @@ type MainController struct {
 }
 
 type ProductDateItem struct {
-	Date string
+	Date     string
 	Products []models.Product
+	Uid      int
 }
 
 func (c *MainController) Get() {
-	//c.Data["Website"] = "youdianzhishi.com"
-	//c.Data["Email"] = "astaxie@gmail.com"
-	c.TplName = "index.html"
-
 	currentUser := c.GetSession("current_user")
+	uid := 0
 	if currentUser != nil {
-		c.Data["Uid"] = currentUser.(*models.User).Id
-	} else {
-		c.Data["Uid"] = 0
+		uid = currentUser.(*models.User).Id
 	}
 
-	var items []ProductDateItem
+	lastDateStr := c.GetString("last_dt")
+	if lastDateStr == "" { // 首页
+		var items []ProductDateItem
 
-	o := orm.NewOrm()
-	// 获取 QuerySeter 对象，product 为表名
-	qs := o.QueryTable("product")
+		deltas := []int{0, 1, 2}
+		for _, delta := range deltas {
+			// 今天
+			now := time.Now()
+			todayDate := utils.DateDelta(now, -1*delta)
+			// 明天
+			tomorrowDate := utils.DateDelta(now, -1*delta+1)
 
-	deltas := []int{0, 1, 2}
-	for _, delta := range deltas {
-		// 今天
-		todayDate := utils.DateDelta(-1 * delta)
-		// 明天
-		tomorrowDate := utils.DateDelta(-1 * delta + 1)
-
-	//	2019-12-31 03:26:06 containers 2019-12-31
-		var products []models.Product
-		num , err := qs.Filter("created__gte", todayDate).Filter("created__lt", tomorrowDate).
-			OrderBy("-created").All(&products)
-		if err != nil {
-			fmt.Printf("Returned Rows Num: %d, Err: %s\n", num, err)
-		} else {
-			item := ProductDateItem {
-				Date: utils.DateFormat(todayDate),
-				Products: products,
+			//	2019-12-31 03:26:06 containers 2019-12-31
+			item, err := getProductsByDate(todayDate, tomorrowDate, uid)
+			if err != nil {
+				http.Error(c.Ctx.ResponseWriter, err.Error(), http.StatusBadRequest)
+				return
+			} else {
+				items = append(items, *item)
 			}
-			items = append(items, item)
+		}
+
+		c.TplName = "index.html"
+		c.Data["Items"] = items
+
+	} else { // 前一天的数据
+		lastDate, err := utils.Str2Date(lastDateStr)
+		if err != nil {
+			http.Error(c.Ctx.ResponseWriter, err.Error(), http.StatusBadRequest)
+			return
+		}
+		todayDate := utils.DateDelta(lastDate, -1)
+		// 2020-02-04
+		// 获取2020-02-03的数据
+		// 02-04 (lastDate)
+		// 02-03 (>=02-03，<02-04)
+		// 02-02
+		item, err := getProductsByDate(todayDate, lastDate, uid)
+		if err != nil {
+			http.Error(c.Ctx.ResponseWriter, err.Error(), http.StatusBadRequest)
+			return
+
+		} else {
+			c.TplName = "partials/products.html"
+			c.Data["Date"] = item.Date
+			c.Data["Products"] = item.Products
+			c.Data["Uid"] = item.Uid
 		}
 	}
 
-	fmt.Println(items)
+}
 
-	c.Data["Items"] = items
+func getProductsByDate(todayDate, tomorrowDate time.Time, uid int) (*ProductDateItem, error) {
+	o := utils.GetOrmer()
+	// 获取 QuerySeter 对象，product 为表名
+	qs := o.QueryTable("product")
 
+	var products []models.Product
+	_, err := qs.Filter("created__gte", todayDate).Filter("created__lt", tomorrowDate).
+		OrderBy("-created").All(&products)
+
+	if err != nil {
+		return nil, err
+	}
+	item := ProductDateItem{
+		Date:     utils.DateFormat(todayDate),
+		Products: products,
+		Uid:      uid,
+	}
+	return &item, nil
 }
