@@ -14,7 +14,8 @@
                 <a href="{{ .Link }}" target="_blank" class="mt-0 external-link">{{ .Name }}</a>
                 <p class="mb-0">{{ .Description }}</p>
             </div>
-            <img src="https://avatars0.githubusercontent.com/u/3094973?v=4" class="align-self-center avatar" alt="">
+            {{ $avatar := .User.MkAvatar }}
+            <div class="align-self-center avatar" style="background-color: {{ $avatar.L }};">{{ $avatar.C }}</div>
         </div>
         {{ else }}
             <p>暂时没有产品信息</p>

@@ -2,10 +2,11 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/astaxie/beego"
 	"productgo/models"
 	"productgo/utils"
 	"time"
+
+	"github.com/astaxie/beego"
 )
 
 type LoginController struct {
@@ -14,6 +15,11 @@ type LoginController struct {
 
 func (l *LoginController) Get() {
 	l.TplName = "login.html"
+}
+
+func (l *LoginController) Logout() {
+	l.DelSession("current_user")
+	l.Ctx.Redirect(302, "/")
 }
 
 func (l *LoginController) Post() {
@@ -77,7 +83,12 @@ func (r *RegisterController) Post() {
 	}
 
 	// 用户名不存在，添加到数据了
-	user := models.User{0, username, utils.MD5(password), time.Now()}
+	user := models.User{
+		Id:       0,
+		Username: username,
+		Password: utils.MD5(password),
+		Created:  time.Now(),
+	}
 	_, err := models.InsertUser(&user)
 	if err != nil {
 		r.Data["json"] = map[string]interface{}{

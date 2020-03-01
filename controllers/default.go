@@ -22,8 +22,10 @@ type ProductDateItem struct {
 func (c *MainController) Get() {
 	currentUser := c.GetSession("current_user")
 	uid := 0
+	var user *models.User
 	if currentUser != nil {
-		uid = currentUser.(*models.User).Id
+		user = currentUser.(*models.User)
+		uid = user.Id
 	}
 
 	lastDateStr := c.GetString("last_dt")
@@ -50,7 +52,7 @@ func (c *MainController) Get() {
 
 		c.TplName = "index.html"
 		c.Data["Items"] = items
-
+		c.Data["User"] = user
 	} else { // 前一天的数据
 		lastDate, err := utils.Str2Date(lastDateStr)
 		if err != nil {
@@ -84,7 +86,7 @@ func getProductsByDate(todayDate, tomorrowDate time.Time, uid int) (*ProductDate
 	qs := o.QueryTable("product")
 
 	var products []models.Product
-	_, err := qs.Filter("created__gte", todayDate).Filter("created__lt", tomorrowDate).
+	_, err := qs.RelatedSel("user").Filter("created__gte", todayDate).Filter("created__lt", tomorrowDate).
 		OrderBy("-created").All(&products)
 
 	if err != nil {

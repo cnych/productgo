@@ -1,4 +1,11 @@
 $(document).ready(function () {
+
+    $('#productModal').on('show.bs.modal', function (e) {
+        // do something...
+        if (!isLogin) {
+            window.location.href = "/login";
+        }
+    });
     $("#product-form").submit(function (event) {
         event.preventDefault();
         var formData = {
