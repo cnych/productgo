@@ -2,8 +2,9 @@ package dao
 
 import (
 	"fmt"
+	"productgo/commons"
+	"productgo/commons/utils"
 	"productgo/models"
-	"productgo/utils"
 	"time"
 )
 
@@ -11,7 +12,7 @@ import (
 func AddProduct(product *models.Product) (int64, error) {
 	now := time.Now()
 	product.Created = now
-	id, err := GetOrmer().Insert(product)
+	id, err := commons.GetOrmer().Insert(product)
 	if err != nil {
 		return 0, err
 	}
@@ -24,7 +25,7 @@ func GetProductById(id int64) (*models.Product, error) {
 		return nil, fmt.Errorf("invalid id: %d", id)
 	}
 	product := models.Product{Id: id}
-	if err := GetOrmer().Read(&product); err != nil {
+	if err := commons.GetOrmer().Read(&product); err != nil {
 		return nil, err
 	}
 	return &product, nil
@@ -40,13 +41,13 @@ func VoteProduct(user *models.User, product *models.Product) error {
 			User:    user,
 			Product: product,
 		}
-		_, err := GetOrmer().Insert(&pv)
+		_, err := commons.GetOrmer().Insert(&pv)
 		if err != nil {
 			return err
 		}
 		// 给product点赞数加1
 		product.VoteCount += 1
-		_, err = GetOrmer().Update(product)
+		_, err = commons.GetOrmer().Update(product)
 		//TODO：事务处理
 		return err
 	}
@@ -55,7 +56,7 @@ func VoteProduct(user *models.User, product *models.Product) error {
 
 func GetProductsByDate(todayDate, tomorrowDate time.Time, uid int) (*models.ProductDateItem, error) {
 	// 获取 QuerySeter 对象，product 为表名
-	qs := GetOrmer().QueryTable("product")
+	qs := commons.GetOrmer().QueryTable("product")
 
 	var products []models.Product
 	_, err := qs.RelatedSel("user").Filter("created__gte", todayDate).Filter("created__lt", tomorrowDate).

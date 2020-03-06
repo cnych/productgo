@@ -1,4 +1,4 @@
-package dao
+package commons
 
 import (
 	"sync"
@@ -15,3 +15,4 @@ func GetOrmer() orm.Ormer {
 	})
 	return globalOrm
 }
+

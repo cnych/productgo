@@ -2,15 +2,23 @@ package controllers
 
 import (
 	"fmt"
-	"productgo/models"
-	"productgo/utils"
-	"time"
+	"productgo/manager/user"
 
 	"github.com/astaxie/beego"
 )
 
-type LoginController struct {
+type userController struct {
 	beego.Controller
+	userMgr user.Manager
+}
+
+func (u *userController) Prepare() {
+	u.Controller.Prepare()
+	u.userMgr = user.Mgr
+}
+
+type LoginController struct {
+	userController
 }
 
 func (l *LoginController) Get() {
@@ -25,21 +33,26 @@ func (l *LoginController) Logout() {
 func (l *LoginController) Post() {
 	username := l.GetString("username")
 	password := l.GetString("password")
-
-	fmt.Println(username, password)
-
-	user := models.QueryUserWithParam(username, utils.MD5(password))
-	if user.Id > 0 {
-		//	匹配密码
-		l.Data["json"] = map[string]interface{}{
-			"code":    1,
-			"message": "登录成功",
-		}
-		l.SetSession("current_user", user)
-	} else {
+	user, err := l.userMgr.Get(username, password)
+	if err != nil {
 		l.Data["json"] = map[string]interface{}{
 			"code":    0,
 			"message": "登录失败",
+		}
+	} else {
+		if user.Id > 0 {
+			l.SetSession("current_user", user)
+			//	匹配密码
+			l.Data["json"] = map[string]interface{}{
+				"code":    1,
+				"message": "登录成功",
+			}
+		} else {
+			l.Data["json"] = map[string]interface{}{
+				"code":    0,
+				"message": "登录失败",
+			}
+			fmt.Println(3)
 		}
 	}
 	l.ServeJSON()
@@ -48,7 +61,7 @@ func (l *LoginController) Post() {
 // 注册
 
 type RegisterController struct {
-	beego.Controller
+	userController
 }
 
 func (r *RegisterController) Get() {
@@ -60,8 +73,6 @@ func (r *RegisterController) Post() {
 	password := r.GetString("password")
 	repassword := r.GetString("repassword")
 
-	fmt.Println(username, password, repassword)
-
 	if password != repassword {
 		r.Data["json"] = map[string]interface{}{
 			"code":    0,
@@ -72,8 +83,7 @@ func (r *RegisterController) Post() {
 	}
 
 	// 注册之前先判断用户名是否已经存在
-	id := models.QueryUserWithUsername(username)
-	if id > 0 {
+	if r.userMgr.IsExists(username) {
 		r.Data["json"] = map[string]interface{}{
 			"code":    0,
 			"message": "用户名已存在",
@@ -83,13 +93,7 @@ func (r *RegisterController) Post() {
 	}
 
 	// 用户名不存在，添加到数据了
-	user := models.User{
-		Id:       0,
-		Username: username,
-		Password: utils.MD5(password),
-		Created:  time.Now(),
-	}
-	_, err := models.InsertUser(&user)
+	_, err := r.userMgr.Create(username, password)
 	if err != nil {
 		r.Data["json"] = map[string]interface{}{
 			"code":    0,

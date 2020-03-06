@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"net/http"
+	"productgo/commons/utils"
 	"productgo/manager/product"
 	"productgo/models"
-	"productgo/utils"
 	"time"
 
 	"github.com/astaxie/beego"
@@ -28,7 +28,6 @@ func (c *MainController) Get() {
 		user = currentUser.(*models.User)
 		uid = user.Id
 	}
-
 	lastDateStr := c.GetString("last_dt")
 	if lastDateStr == "" { // 首页
 		var items []models.ProductDateItem
@@ -80,4 +79,8 @@ func (c *MainController) Get() {
 		}
 	}
 
+}
+
+func (c *MainController) HealthCheck() {
+	c.Ctx.WriteString("ok")
 }

@@ -4,7 +4,6 @@ import (
 	"encoding/gob"
 	"productgo/models"
 	_ "productgo/routers"
-	"productgo/utils"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
@@ -29,10 +28,6 @@ func main() {
 	orm.RegisterModel(new(models.User), new(models.Product), new(models.ProductVote))
 	// create table
 	if err := orm.RunSyncdb("default", false, true); err != nil {
-		panic(err)
-	}
-
-	if err := utils.InitDB(); err != nil {
 		panic(err)
 	}
 
