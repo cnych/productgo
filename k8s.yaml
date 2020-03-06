@@ -1,0 +1,148 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: productgo-db
+  namespace: kube-example
+  labels:
+    app: productgo
+spec:
+  ports:
+  - port: 3306
+    targetPort: dbport
+  selector:
+    app: productgo
+    tier: mysql
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: productgo-db
+  namespace: kube-example
+  labels:
+    app: productgo
+    tier: mysql
+spec:
+  selector:
+    matchLabels:
+      app: productgo
+      tier: mysql
+  template:
+    metadata:
+      labels:
+        app: productgo
+        tier: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:5.6
+        imagePullPolicy: IfNotPresent
+        args: 
+        - --character-set-server=utf8mb4
+        - --collation-server=utf8mb4_unicode_ci
+        ports:
+        - containerPort: 3306
+          name: dbport
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: rootPassW0rd
+        - name: MYSQL_DATABASE
+          value: productgo
+        - name: MYSQL_USER
+          value: productgo
+        - name: MYSQL_PASSWORD
+          value: productgo321
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: productgo
+  namespace: kube-example
+  labels:
+    app: productgo
+spec:
+  selector:
+    app: productgo
+    tier: frontend
+  ports:
+  - name: web
+    port: 80
+    targetPort: web
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: productgo
+  namespace: kube-example
+  labels:
+    app: productgo
+    tier: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: productgo
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: productgo
+        tier: frontend
+    spec:
+      containers:
+      - name: productgo
+        image: cnych/productgo:v0.0.1
+        ports:
+        - containerPort: 8080
+          name: web
+        env:
+        - name: mysqluser
+          value: productgo
+        - name: mysqlpass
+          value: productgo321
+        - name: mysqlhost
+          value: productgo-db:3306
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: productgo-https
+  namespace: kube-example
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`product.qikqiak.com`)
+    kind: Rule
+    services:
+    - name: productgo
+      port: 80
+  tls:
+    certResolver: ali
+    domains:
+    - main: "*.qikqiak.com"
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-https
+  namespace: kube-example
+spec:
+  redirectScheme:
+    scheme: https
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: productgo-http
+  namespace: kube-example
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`product.qikqiak.com`)
+    kind: Rule
+    services:
+    - name: productgo
+      port: 80
+    middlewares: 
+    - name: redirect-https

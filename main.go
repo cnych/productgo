@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/gob"
+	"fmt"
 	"productgo/models"
 	_ "productgo/routers"
 
@@ -11,7 +12,11 @@ import (
 )
 
 var (
-	dataSource = "root:root@tcp(127.0.0.1:3306)/productgo?charset=utf8"
+	mysqluser  = beego.AppConfig.String("mysqluser")
+	mysqlpass  = beego.AppConfig.String("mysqlpass")
+	mysqlhost  = beego.AppConfig.String("mysqlhost")
+	mysqldb    = beego.AppConfig.String("mysqldb")
+	dataSource = fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8", mysqluser, mysqlpass, mysqlhost, mysqldb)
 )
 
 func init() {
@@ -23,7 +28,9 @@ func main() {
 	if err := orm.RegisterDataBase("default", "mysql", dataSource, 30); err != nil {
 		panic(err)
 	}
-	orm.Debug = true
+	if beego.AppConfig.String("runmode") == beego.DEV {
+		orm.Debug = true
+	}
 	// register model
 	orm.RegisterModel(new(models.User), new(models.Product), new(models.ProductVote))
 	// create table
@@ -31,6 +38,7 @@ func main() {
 		panic(err)
 	}
 
+	beego.BConfig.Log.AccessLogs = true
 	beego.BConfig.WebConfig.Session.SessionOn = true
 	beego.BConfig.WebConfig.Session.SessionProvider = "mysql"
 	beego.BConfig.WebConfig.Session.SessionProviderConfig = dataSource
